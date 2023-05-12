@@ -1,67 +1,71 @@
 // Mock data
 const profiles = [
   {
-    "id": "1",
-    "name": "Alice",
-    "connections": ["2", "3"]
+    id: '1',
+    name: 'Alice',
+    connections: ['2', '3']
   },
   {
-    "id": "2",
-    "name": "Bob",
-    "connections": ["1", "3", "4"]
-  },
+    id: '2',
+    name: 'Bob',
+    connections: ['1', '3', '4']
+  }
   // ... more profiles
-];
+]
 
 // Initialize
-const N = profiles.length;
-const d = 0.85;
-const initialScore = 1 / N;
-let scores = {};
-let newScores = {};
+const N = profiles.length
+const d = 0.85
+const initialScore = 1 / N
+let scores = {}
+let newScores = {}
 profiles.forEach(profile => {
-  scores[profile.id] = initialScore;
-  newScores[profile.id] = 0;
-});
+  scores[profile.id] = initialScore
+  newScores[profile.id] = 0
+})
 
 // Create a mapping from profile ID to connections for faster lookup
-let connections = {};
+const connections = {}
 profiles.forEach(profile => {
-  connections[profile.id] = profile.connections;
-});
+  connections[profile.id] = profile.connections
+})
+
+// Make sure all profiles in connections exist in scores
+for (const id in connections) {
+  connections[id] = connections[id].filter(connectionId => scores[connectionId] !== undefined)
+}
 
 // Iterate until convergence
-let maxIterations = 100;
-let epsilon = 0.0001;  // stop if all page ranks change by less than this
+const maxIterations = 100
+const epsilon = 0.0001 // stop if all page ranks change by less than this
 for (let iter = 0; iter < maxIterations; iter++) {
   // Distribute scores
-  for (let id in scores) {
-    let currentScore = scores[id];
-    let distributedScore = currentScore * d / connections[id].length;
+  for (const id in scores) {
+    const currentScore = scores[id]
+    const distributedScore = (connections[id].length > 0) ? currentScore * d / connections[id].length : 0
     connections[id].forEach(connectionId => {
-      newScores[connectionId] += distributedScore;
-    });
+      newScores[connectionId] += distributedScore
+    })
   }
 
   // Apply damping factor and check for convergence
-  let hasConverged = true;
-  for (let id in scores) {
-    newScores[id] = newScores[id] * d + (1 - d) / N;
+  let hasConverged = true
+  for (const id in scores) {
+    newScores[id] = newScores[id] * d + (1 - d) / N
     if (Math.abs(newScores[id] - scores[id]) > epsilon) {
-      hasConverged = false;
+      hasConverged = false
     }
   }
 
   // Swap scores and newScores, and clear newScores for next iteration
-  [scores, newScores] = [newScores, scores];
-  for (let id in newScores) {
-    newScores[id] = 0;
+  [scores, newScores] = [newScores, scores]
+  for (const id in newScores) {
+    newScores[id] = 0
   }
 
   if (hasConverged) {
-    break;
+    break
   }
 }
 
-console.log(scores);
-
+console.log(scores)

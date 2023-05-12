@@ -1,11 +1,11 @@
 
 
 <div align="center">  
-  <h1>nostrank</h1>
+  <h1>NostRank</h1>
 </div>
 
 <div align="center">  
-<i>nostrank</i>
+<i>NostRank</i>
 </div>
 
 ---
@@ -21,7 +21,9 @@
 [![npm](https://img.shields.io/npm/dw/nostrank.svg)](https://npmjs.com/package/nostrank)
 [![Github Stars](https://img.shields.io/github/stars/nostrapps/nostrank.svg)](https://github.com/nostrapps/nostrank/)
 
-Designing a PageRank-style algorithm for a social network requires a graph-based model where nodes represent users and edges represent relationships or interactions between them. The main idea is to distribute the "trust" or "reputation" of a user to its neighbors in the network.
+## Design
+
+Designing a NostRank style algorithm for a social network requires a graph-based model where nodes represent users and edges represent relationships or interactions between them. The main idea is to distribute the "trust" or "reputation" of a user to its neighbors in the network.
 
 Here's a simplified outline of how you might implement this:
 
@@ -29,7 +31,7 @@ Here's a simplified outline of how you might implement this:
 
 2. **Initial Assignment:** Assign each node a preliminary score. For simplicity, you could start with an equal score for every node. For a network with `N` nodes, this could be `1/N`.
 
-3. **Iterations:** Perform the iterative PageRank computation. For each node `i`, distribute its current score across its outgoing edges. The score for each neighboring node `j` is updated based on the weight of the edge from `i` to `j` and the current score of `i`.
+3. **Iterations:** Perform the iterative NostRank computation. For each node `i`, distribute its current score across its outgoing edges. The score for each neighboring node `j` is updated based on the weight of the edge from `i` to `j` and the current score of `i`.
 
 4. **Damping Factor:** Implement a damping factor `d`, typically set to `0.85`. This is to account for the fact that not all trust or reputation is passed through interactions. Therefore, each node retains a portion `(1 - d)` of its score, and only distributes a portion `d` of its score to its neighbors.
 
@@ -43,7 +45,7 @@ A few things to note:
 
 - It's crucial to carefully consider the nature of relationships and interactions when constructing your graph. For example, you might consider whether mutual interactions should carry more weight than one-way interactions.
 
-- The PageRank algorithm can be computationally intensive, especially for large graphs. Optimized implementations often use techniques like sparse matrix operations and graph partitioning to improve efficiency.
+- The NostRank algorithm can be computationally intensive, especially for large graphs. Optimized implementations often use techniques like sparse matrix operations and graph partitioning to improve efficiency.
 
 - In a social network, new edges (interactions) and nodes (users) are often added over time. You'll need to decide how to handle these updates. You might periodically re-run the entire algorithm, or develop an incremental update approach.
 
